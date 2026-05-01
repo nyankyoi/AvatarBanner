@@ -12,7 +12,7 @@ import { getGoogleFontImport, preloadGoogleFont, getFontFamilyName } from './fon
 
 const extensionName = 'SillyTavern-AvatarBanner';
 const STYLE_ID = 'avatar-banner-dynamic';
-const EXTENSION_PATH = '/scripts/extensions/third-party/SillyTavern-AvatarBanner';
+const EXTENSION_PATH = '/scripts/extensions/third-party/AvatarBanner';
 
 let getSettings;
 let ExtensionState;
