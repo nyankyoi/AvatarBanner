@@ -69,7 +69,7 @@ function processTemplate(templateName, values, options = {}) {
         return '';
     }
     
-  /* --- HORIZONTAL STATS & BUTTON FIX --- */
+ /* --- HORIZONTAL STATS & BUTTON FIX --- */
     if (options.includeBanner && (templateName === 'STANDARD' || templateName === 'MOONLIT')) {
         css += `
         /* Default layout (Left-aligned for characters, and flat styles) */
@@ -115,11 +115,13 @@ function processTemplate(templateName, values, options = {}) {
             pointer-events: auto !important;
         }
 
-        /* Force MFC containers to align flush without breaking mobile width */
+        /* Force MFC containers to align flush, wrap cleanly, and stay level */
         #chat {{selector}} [class*="mfc"] {
             display: flex !important;
             flex-wrap: wrap !important;
             justify-content: flex-start !important;
+            align-items: center !important; 
+            gap: 4px !important; 
             width: auto !important; 
             margin-left: -4px !important; 
         }
@@ -136,11 +138,25 @@ function processTemplate(templateName, values, options = {}) {
             margin-right: -4px !important;
         }
 
-        /* --- MOBILE SKEW FIX --- */
+        /* --- MOBILE RESPONSIVENESS FIXES --- */
         @media screen and (max-width: 800px) {
+            /* Fix page skew */
             #chat {{selector}} {
                 box-sizing: border-box !important;
                 max-width: 100% !important;
+            }
+            
+            /* Pushes stats down to dodge the wrapped date */
+            #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
+                top: calc({{bannerHeight}} * 0.8 + 65px) !important; 
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+                font-size: 0.9em !important;
+            }
+            
+            /* Pushes message text down further to make room for lowered stats */
+            #chat {{selector}} .mes_text {
+                margin-top: 45px !important; 
             }
         }
         `;
