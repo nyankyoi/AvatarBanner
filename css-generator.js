@@ -69,9 +69,22 @@ function processTemplate(templateName, values, options = {}) {
         return '';
     }
     
-   /* --- HORIZONTAL STATS & BUTTON FIX --- */
+   /* --- Z-INDEX FIX FOR MFC & BOTTOM BUTTONS --- */
     if (options.includeBanner && (templateName === 'STANDARD' || templateName === 'MOONLIT')) {
         css += `
+        /* Elevates ALL sibling containers (like the MFC wrapper) above the background layer */
+        #chat {{selector}} > div:not(.mes_block) {
+            position: relative;
+            z-index: 45 !important; 
+        }
+        
+        /* Elevates any extra button rows injected inside the block itself */
+        #chat {{selector}} .mes_block > div:not(.mes_text):not(.ch_name) {
+            position: relative;
+            z-index: 45 !important;
+        }
+
+        /* --- HORIZONTAL STATS FIX --- */
         /* Default layout (Left-aligned for characters, and flat styles) */
         #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
             position: absolute !important;
@@ -82,7 +95,7 @@ function processTemplate(templateName, values, options = {}) {
             flex-direction: row !important;
             align-items: center !important;
             gap: 15px !important;
-            z-index: 10 !important;
+            z-index: 50 !important;
             opacity: 0.85 !important;
         }
 
@@ -104,21 +117,6 @@ function processTemplate(templateName, values, options = {}) {
 
         #chat {{selector}} .mes_text {
             margin-top: 25px !important;
-        }
-
-        /* --- Z-INDEX FIX FOR MFC & BOTTOM BUTTONS --- */
-        #chat {{selector}} .mes_buttons,
-        #chat {{selector}} .extraMesButtons,
-        #chat {{selector}} .bottom-mes-buttons {
-            position: relative !important;
-            z-index: 50 !important; 
-            pointer-events: auto !important;
-        }
-        
-        #chat {{selector}} .mes_button {
-            position: relative !important;
-            z-index: 50 !important;
-            pointer-events: auto !important;
         }
         `;
     }
