@@ -75,7 +75,8 @@ function processTemplate(templateName, values, options = {}) {
         /* Default layout (Left-aligned for characters, and flat styles) */
         #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
             position: absolute !important;
-            top: calc({{bannerHeight}} * 0.8 + 42px) !important;
+            /* Nudged down from 42px to 52px for PC */
+            top: calc({{bannerHeight}} * 0.8 + 52px) !important; 
             left: 2vw !important;
             right: auto !important;
             display: flex !important;
@@ -102,8 +103,9 @@ function processTemplate(templateName, values, options = {}) {
             margin: 0 !important;
         }
 
+        /* Pushed down from 25px to 35px to clear the new PC stat placement */
         #chat {{selector}} .mes_text {
-            margin-top: 25px !important;
+            margin-top: 35px !important; 
         }
 
         /* --- SAFE Z-INDEX FIX FOR BUTTONS --- */
@@ -146,23 +148,23 @@ function processTemplate(templateName, values, options = {}) {
                 max-width: 100% !important;
             }
             
-            /* Pushes stats down to dodge the wrapped date */
+            /* Nudged down from 65px to 75px for Mobile */
             #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
-                top: calc({{bannerHeight}} * 0.8 + 65px) !important; 
+                top: calc({{bannerHeight}} * 0.8 + 75px) !important; 
                 flex-wrap: wrap !important;
                 gap: 8px !important;
                 font-size: 0.9em !important;
             }
             
-            /* Pushes message text down further to make room for lowered stats */
+            /* Pushed down from 45px to 55px to clear the new Mobile stat placement */
             #chat {{selector}} .mes_text {
-                margin-top: 45px !important; 
+                margin-top: 55px !important; 
             }
         }
         `;
     }
     /* --- END HORIZONTAL STATS & BUTTON FIX --- */
-
+    
     // If no banner, strip the banner block and padding
     if (!options.includeBanner) {
         // Remove everything between @BANNER_START and @BANNER_END
