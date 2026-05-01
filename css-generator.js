@@ -69,7 +69,7 @@ function processTemplate(templateName, values, options = {}) {
         return '';
     }
     
-   /* --- HORIZONTAL STATS FIX --- */
+   /* --- HORIZONTAL STATS & BUTTON FIX --- */
     if (options.includeBanner && (templateName === 'STANDARD' || templateName === 'MOONLIT')) {
         css += `
         /* Default layout (Left-aligned for characters, and flat styles) */
@@ -105,9 +105,24 @@ function processTemplate(templateName, values, options = {}) {
         #chat {{selector}} .mes_text {
             margin-top: 25px !important;
         }
+
+        /* --- Z-INDEX FIX FOR MFC & BOTTOM BUTTONS --- */
+        #chat {{selector}} .mes_buttons,
+        #chat {{selector}} .extraMesButtons,
+        #chat {{selector}} .bottom-mes-buttons {
+            position: relative !important;
+            z-index: 50 !important; 
+            pointer-events: auto !important;
+        }
+        
+        #chat {{selector}} .mes_button {
+            position: relative !important;
+            z-index: 50 !important;
+            pointer-events: auto !important;
+        }
         `;
     }
-    /* --- END HORIZONTAL STATS FIX --- */
+    /* --- END HORIZONTAL STATS & BUTTON FIX --- */
 
     // If no banner, strip the banner block and padding
     if (!options.includeBanner) {
