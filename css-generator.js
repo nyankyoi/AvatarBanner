@@ -69,13 +69,15 @@ function processTemplate(templateName, values, options = {}) {
         return '';
     }
     
-    /* --- HORIZONTAL STATS FIX --- */
+   /* --- HORIZONTAL STATS FIX --- */
     if (options.includeBanner && (templateName === 'STANDARD' || templateName === 'MOONLIT')) {
         css += `
+        /* Default layout (Left-aligned for characters, and flat styles) */
         #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
             position: absolute !important;
             top: calc({{bannerHeight}} * 0.8 + 42px) !important;
             left: 2vw !important;
+            right: auto !important;
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
@@ -83,9 +85,23 @@ function processTemplate(templateName, values, options = {}) {
             z-index: 10 !important;
             opacity: 0.85 !important;
         }
+
+        /* Bubblechat Overrides (Right-aligned for User messages) */
+        body.bubblechat #chat {{selector}}[is_user="true"] > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]),
+        body.echostyle #chat {{selector}}[is_user="true"] > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]),
+        body.whisperstyle #chat {{selector}}[is_user="true"] > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]),
+        body.hushstyle #chat {{selector}}[is_user="true"] > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]),
+        body.ripplestyle #chat {{selector}}[is_user="true"] > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]),
+        body.tidestyle #chat {{selector}}[is_user="true"] > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
+            left: auto !important;
+            right: 2vw !important;
+            flex-direction: row-reverse !important;
+        }
+
         #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) > * {
             margin: 0 !important;
         }
+
         #chat {{selector}} .mes_text {
             margin-top: 25px !important;
         }
