@@ -69,7 +69,7 @@ function processTemplate(templateName, values, options = {}) {
         return '';
     }
     
-   /* --- HORIZONTAL STATS & BUTTON FIX --- */
+  /* --- HORIZONTAL STATS & BUTTON FIX --- */
     if (options.includeBanner && (templateName === 'STANDARD' || templateName === 'MOONLIT')) {
         css += `
         /* Default layout (Left-aligned for characters, and flat styles) */
@@ -113,6 +113,35 @@ function processTemplate(templateName, values, options = {}) {
             position: relative !important;
             z-index: 50 !important;
             pointer-events: auto !important;
+        }
+
+        /* Force MFC containers to align flush without breaking mobile width */
+        #chat {{selector}} [class*="mfc"] {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: flex-start !important;
+            width: auto !important; 
+            margin-left: -4px !important; 
+        }
+
+        /* Bubblechat Overrides: Right-align MFC buttons for User messages */
+        body.bubblechat #chat {{selector}}[is_user="true"] [class*="mfc"],
+        body.echostyle #chat {{selector}}[is_user="true"] [class*="mfc"],
+        body.whisperstyle #chat {{selector}}[is_user="true"] [class*="mfc"],
+        body.hushstyle #chat {{selector}}[is_user="true"] [class*="mfc"],
+        body.ripplestyle #chat {{selector}}[is_user="true"] [class*="mfc"],
+        body.tidestyle #chat {{selector}}[is_user="true"] [class*="mfc"] {
+            justify-content: flex-end !important;
+            margin-left: 0 !important;
+            margin-right: -4px !important;
+        }
+
+        /* --- MOBILE SKEW FIX --- */
+        @media screen and (max-width: 800px) {
+            #chat {{selector}} {
+                box-sizing: border-box !important;
+                max-width: 100% !important;
+            }
         }
         `;
     }
