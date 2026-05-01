@@ -68,6 +68,30 @@ function processTemplate(templateName, values, options = {}) {
         console.warn(`[${extensionName}] Template not found: ${templateName}`);
         return '';
     }
+    
+    /* --- HORIZONTAL STATS FIX --- */
+    if (options.includeBanner && (templateName === 'STANDARD' || templateName === 'MOONLIT')) {
+        css += `
+        #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) {
+            position: absolute !important;
+            top: calc({{bannerHeight}} * 0.8 + 42px) !important;
+            left: 2vw !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 15px !important;
+            z-index: 10 !important;
+            opacity: 0.85 !important;
+        }
+        #chat {{selector}} > div:not(.mes_block):has(.mes_id, .mes_timer, [class*="token"], [title*="Tokens"]) > * {
+            margin: 0 !important;
+        }
+        #chat {{selector}} .mes_text {
+            margin-top: 25px !important;
+        }
+        `;
+    }
+    /* --- END HORIZONTAL STATS FIX --- */
 
     // If no banner, strip the banner block and padding
     if (!options.includeBanner) {
